@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee List</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Logo</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Employee List</a>
+                </li>
+            </ul>
+          <!--  <span class="navbar-text">
+                <a href="#">Logout</a>
+            </span>-->
+        </div>
+    </nav>
+
+    <div class="mt-4">
+        <h2>Employee List</h2>
+        <div class="d-flex justify-content-between mb-3">
+            <span>Total Count: <span th:text="${count}">0</span></span>
+            <a href="create" class="btn btn-primary">Create Employee</a>
+        </div>
+		
+		<th:block th:if="${session.dmsg}">
+		<p class="text-center fs-4 text-success">[[${session.dmsg}]]</p>
+		 <!--<th:block th:text="${@EmpServiceImpl.removeSessionMessage()}"></th:block>-->
+		</th:block>
+		
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Enter Search Keyword" aria-label="Search">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button">Search</button>
+            </div>
+        </div>
+
+        <table class="table table-bordered">
+			<thead>
+					    <tr >
+					      <th scope="col">Id</th>
+					      <th scope="col">Image</th>
+					      <th scope="col">Name</th>
+					      <th scope="col">Email</th>
+						  <th scope="col">Designation</th>
+						  <th scope="col">Gender</th>
+						  <th scope="col">Course</th>
+						  <th scope="col">Create Date</th>
+						  <th scope="col">Action</th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					    <tr th:each="e:${emplst}">
+							<td th:text="${e.id}"></td>
+							<td th:text="${e.Image}"></td>
+					        <td th:text="${e.Name}"></td>
+						    <td th:text="${e.Email}"></td>
+							<td th:text="${e.Designation}"></td>
+							<td th:text="${e.Gender}"></td>
+						    <td th:text="${e.Course}"></td>
+							 <td th:text="${#dates.format(e.CreateDate, 'yyyy-MM-dd')}"></td>
+						  <td><a th:href="@{'edit/'+${e.id}}" class="btn btn-sm btn-primary">Edit</a>
+							
+						  <a th:href="@{'deleteemp/'+${e.id}}" class="btn btn-sm btn-danger">Delete</a></td>
+					    </tr>
+					     </tbody>
+           
+            
+        </table>
+    </div>
+</div>
+</body>
+</html>

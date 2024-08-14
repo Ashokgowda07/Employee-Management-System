@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Employee</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!--  <script>
+        $(document).ready(function() {
+            $("#employeeForm").submit(function(event) {
+                var isValid = true;
+
+                // Name validation
+                if ($("#name").val().trim() === "") {
+                    isValid = false;
+                    alert("Name is required");
+                }
+
+                // Email validation
+                var email = $("#email").val().trim();
+                if (email === "") {
+                    isValid = false;
+                    alert("Email is required");
+                } else if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
+                    isValid = false;
+                    alert("Invalid email format");
+                }
+
+                // Mobile number validation
+                var mobile = $("#mobile").val().trim();
+                if (mobile === "") {
+                    isValid = false;
+                    alert("Mobile number is required");
+                } else if (!/^\d+$/.test(mobile)) {
+                    isValid = false;
+                    alert("Mobile number must be numeric");
+                }
+
+                // Designation validation
+                if ($("#designation").val() === null) {
+                    isValid = false;
+                    alert("Designation is required");
+                }
+
+                // Gender validation
+                if (!$("input[name='gender']:checked").val()) {
+                    isValid = false;
+                    alert("Gender is required");
+                }
+
+                // Course validation
+                if ($("input[name='course']:checked").length === 0) {
+                    isValid = false;
+                    alert("At least one course must be selected");
+                }
+
+                // Image upload validation
+                var fileInput = $("#imgUpload")[0];
+                var filePath = fileInput.value;
+                if (filePath) {
+                    var allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+                    if (!allowedExtensions.exec(filePath)) {
+                        isValid = false;
+                        alert('Please upload file having extensions .jpeg/.jpg/.png only.');
+                        fileInput.value = '';
+                    }
+                }
+
+                if (!isValid) {
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>-->
+</head>
+<body>
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Logo</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Employee List</a>
+                </li>
+            </ul>
+            <span class="navbar-text">
+                <a href="#">Logout</a>
+            </span>
+        </div>
+    </nav>
+
+    <div class="mt-4">
+        <h2>Edit Employee</h2>
+        <form id="employeeForm" method="POST"  action="/updateemp">
+			
+			<th:block th:if="${session.umsg}">
+					<p class="text-center fs-4 text-success">[[${session.umsg}]]</p>
+					 <!--<th:block th:text="${@EmpServiceImpl.removeSessionMessage()}"></th:block>-->
+					</th:block>
+					
+		<th:block th:if="${session.smsg}">
+				<p class="text-center fs-4 text-danger">[[${session.smsg}]]</p>
+			 <!--<th:block th:text="${@EmpServiceImpl.removeSessionMessage()}"></th:block>-->
+				</th:block>
+			
+			<div class="form-group">
+			<label for="name">Id:</label>
+			 <input type="text" class="form-control" id="id" name="id" th:value="${emp.id}" readonly>
+			  </div>
+			
+			
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name" name="Name" th:value="${emp.Name}" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" name="Email" th:value="${emp.Email}" required>
+            </div>
+            <div class="form-group">
+                <label for="mobile">Mobile No:</label>
+                <input type="text" class="form-control" id="mobile" name="mobile_no" th:value="${emp.mobile_no}" required>
+            </div>
+            <div class="form-group">
+                <label for="designation">Designation:</label>
+                <select class="form-control" id="designation" name="Designation"th:value="${emp.Designation}" required >
+                    <option value="HR" selected>HR</option>
+                    <option value="Manager">Manager</option>
+                    <option value="Sales">Sales</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Gender:</label><br>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="Gender" id="male" value="M"
+					th:attrappend="checked=${emp.Gender=='M' ? 'checked' : ''}"  >
+                    <label class="form-check-label" for="male">Male</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="Gender" id="female" value="F"
+					th:attrappend="checked=${emp.Gender=='F' ? 'checked' : ''}">
+                    <label class="form-check-label" for="female">Female</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Course:</label><br>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="Course" id="mca" value="MCA"
+					th:attr="checked=${emp.Course=='MCA' ? 'checked' : ''}" >
+                    <label class="form-check-label" for="mca">MCA</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="Course" id="bca" value="BCA" >
+				
+                    <label class="form-check-label" for="bca">BCA</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="Course" id="bsc" value="BSC">
+					
+                    <label class="form-check-label" for="bsc">BSC</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="imgUpload">Img Upload:</label>
+                <input type="file" class="form-control-file" id="Image" name="Image" th:value="${emp.Image}" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Update</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
